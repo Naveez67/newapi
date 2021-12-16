@@ -1,0 +1,4 @@
+{
+  "db": "mongodb+srv://naveez:naveez123@fypproject.yrbva.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtprivatekey":"naveezmunir"
+}
