@@ -1,7 +1,8 @@
 const express = require("express");
 let router = express.Router();
 const auth=require("../../../middlewares/auth");
-const Ads=require("../../../models/ads/ad");
+const validateAd=require("../../../middlewares/validateAd");
+const {Ads}=require("../../../models/ads/ad");
 const {Farmer}=require("../../../models/farmer/newfarmer");
 var Supplier = require("../../../models/supplier/newsupplier");
 router.get("/",async(req,res)=>{
@@ -47,7 +48,7 @@ router.put("/test",async(req,res)=>{
 
 
 
-router.post("/",auth, async (req, res) => {
+router.post("/",auth,validateAd, async (req, res) => {
     let ads = new Ads();
     ads.title = req.body.title;
     ads.body = req.body.body;

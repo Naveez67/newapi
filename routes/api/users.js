@@ -5,13 +5,13 @@ const auth = require("../../middlewares/auth");
 const admin = require("../../middlewares/admin");
 var { User } = require("../../models/user");
 const {Farmer}=require("../../models/farmer/newfarmer");
-const Supplier=require("../../models/supplier/newsupplier");
+const {Supplier}=require("../../models/supplier/newsupplier");
 const {Customer}=require("../../models/customer/newcustomer");
 const {Admin}=require("../../models/admin/newadmin")      
 var bcrypt = require('bcryptjs');
-var _ = require('lodash');     
+var _ = require('lodash');      
 var jwt = require('jsonwebtoken');
-var config=require("config");
+var config=require("config"); 
 router.get("/",auth,async (req, res) => {
     let page = Number(req.query.page ? req.query.page : 1);
     let perPage = Number(req.query.perPage ? req.query.perPage : 10);
@@ -103,7 +103,7 @@ router.get("/customer",auth,async (req, res) => {
   router.delete("/:id",auth, async (req, res) => {
     let user = await User.findById(req.params.id);
     if(user.role==="farmer") await Farmer.findByIdAndDelete(user.userid);
-    if(user.role==="customer") await Customer.findByIdAndDelete(user.userid);
+    if(user.role==="customer") await customer.findByIdAndDelete(user.userid);
     if(user.role==="supplier") await Supplier.findByIdAndDelete(user.userid);
 
     let user1 = await User.findByIdAndDelete(req.params.id);

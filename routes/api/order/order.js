@@ -12,11 +12,12 @@ router.get("/",async(req,res)=>{
      
     return res.send(order);
 })
-router.get("/myorders",auth,async(req,res)=>{
+router.get("/myorders/",auth,async(req,res)=>{
     let page = Number(req.query.page ? req.query.page : 1);
     let perPage = Number(req.query.perPage ? req.query.perPage : 10);
     let skipRecords = perPage * (page - 1);
-    let order = await Order.find({adpostedby:req.body.adpostedby}).skip(skipRecords).limit(perPage);
+    // console.log(req.body)
+    let order = await Order.find({adpostedby:req.user._id}).skip(skipRecords).limit(perPage);
     return res.send(order);
 })
 router.get("/:id",async(req,res)=>{ 
@@ -34,13 +35,13 @@ router.get("/:id",async(req,res)=>{
 router.post("/",auth,validateOrder, async (req, res) => {
     let order = new Order();
          order.address = req.body.address;
-         order.buyername = req.body.body;
+         order.buyername = req.body.buyername;
          order.adid = req.body.adid;
          order.adpostedby = req.body.adpostedby;
          order.totalamount = req.body.totalamount;
          order.quantity = req.body.quantity;
          order.phone = req.body.phone;
-            // await order.save();
+         await order.save();
          return res.send(order);
   });
 
