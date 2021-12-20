@@ -22,7 +22,7 @@ var customerSchema = mongoose.Schema({
 var Customer = mongoose.model("Customer", customerSchema);
 function validatecustomer(data) {
   const schema = Joi.object({
-    name: Joi.string().min(3).regex(/^[A-Za-z]+$/).required(),
+    name: Joi.string().min(3).required(),
     username: Joi.string().min(6).required(),
     password: Joi.string().min(6).required(),
     photo: Joi.string().min(3).required(),
