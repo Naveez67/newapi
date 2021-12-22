@@ -5,7 +5,7 @@ var adsSchema = mongoose.Schema({
   title: String,
   body: String,
   photo:String,
-  price:Number,
+  price:Number, 
   dateofpost:{
       type:Date, 
       default:Date.now
@@ -14,10 +14,9 @@ var adsSchema = mongoose.Schema({
       type:ObjectId,
       ref:"User"
   },
-  type:String,
+  // type:String,
   category:String,
-
- expire_at: {type: Date, default: Date.now, expires: 16*24*60*60}
+ expire_at: {type: Date, default: Date.now, expires: 31*24*60*60}
 });
 var Ads = mongoose.model("Ads", adsSchema);
 function validateAd(data) {
@@ -26,7 +25,7 @@ function validateAd(data) {
       body: Joi.string().min(6).required(),
       photo: Joi.string().min(3).required(),
       price: Joi.number().min(0).required(),
-      type: Joi.string().min(3).required(),
+      // type: Joi.string().min(3).required(),
       category: Joi.string().min(3).required(),
       // address:Joi.string().min,
     });

@@ -16,10 +16,10 @@ router.get("/",auth,async (req, res) => {
     let page = Number(req.query.page ? req.query.page : 1);
     let perPage = Number(req.query.perPage ? req.query.perPage : 10);
     let skipRecords = perPage * (page - 1);
-    if(req.user.role==="admin"){
-      let users = await User.find().skip(skipRecords).limit(perPage);
-      return res.send(users); 
-    }
+    // if(req.user.role==="admin"){
+    //   let users = await User.find().skip(skipRecords).limit(perPage);
+    //   return res.send(users); 
+    // }
     let users = await User.find({$or:[{role:"farmer"},{role:"customer"},{role:"supplier"}]}).skip(skipRecords).limit(perPage);
     return res.send(users);
   });
@@ -102,10 +102,10 @@ router.get("/customer",auth,async (req, res) => {
   //update a record
   router.delete("/:id",auth, async (req, res) => {
     let user = await User.findById(req.params.id);
-    if(user.role==="farmer") await Farmer.findByIdAndDelete(user.userid);
-    if(user.role==="customer") await customer.findByIdAndDelete(user.userid);
+    if(user.role==="farmer")
+     await Farmer.findByIdAndDelete(user.userid);
+    if(user.role==="customer") await Customer.findByIdAndDelete(user.userid);
     if(user.role==="supplier") await Supplier.findByIdAndDelete(user.userid);
-
     let user1 = await User.findByIdAndDelete(req.params.id);
     return res.send(user1);
   });
@@ -127,7 +127,7 @@ router.get("/customer",auth,async (req, res) => {
     if(!user) return res.status(400).send("user is not register");
     let isValid=await bcrypt.compare(req.body.password,user.password);
     if(!isValid) return res.status(401).send("invalid password");
-    //if(!user.accountverfied) return res.status(402).send("account is not activited")
+    if(!user.accountverfied) return res.status(402).send("your account is not activited")
     let token=jwt.sign({_id:user._id,name:user.username,role:user.role},config.get("jwtprivatekey"));
 
     res.send(token);

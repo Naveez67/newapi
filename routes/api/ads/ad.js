@@ -54,7 +54,7 @@ router.post("/",auth,validateAd, async (req, res) => {
     ads.body = req.body.body;
     ads.photo = req.body.photo;
     ads.price = req.body.price;
-    ads.type = req.body.type;
+    // ads.type = req.body.type;
     ads.category = req.body.category;
     //console.log(req.body);
     ads.postedby=req.user;

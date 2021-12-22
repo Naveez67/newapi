@@ -41,6 +41,7 @@ router.post("/",auth,validateOrder, async (req, res) => {
          order.totalamount = req.body.totalamount;
          order.quantity = req.body.quantity;
          order.phone = req.body.phone;
+         order.photo = req.body.photo;
          await order.save();
          return res.send(order);
   });

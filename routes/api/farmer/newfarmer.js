@@ -25,16 +25,16 @@ router.get("/",async (req, res) => {
     }
   });
   //update a record
-  router.put("/:id",validateFarmer, async (req, res) => {
+  router.put("/:id", async (req, res) => {
     let farmer = await Farmer.findById(req.params.id);
     let user = await User.findOne({userid:req.params.id});
     farmer.name = req.body.name;
-    farmer.photo = req.body.Photo;
+    farmer.photo = req.body.photo;
     farmer.address = req.body.address;
     farmer.phone = req.body.phone;
     user.username=req.body.username;
     console.log(req.body)
-    await farmer.save();
+    await farmer.save(); 
 
     await user.save();
     return res.send("updated");

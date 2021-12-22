@@ -8,6 +8,7 @@ var orderSchema = mongoose.Schema({
   quantity:Number,
   address:String,
   phone:String,
+  photo:String,
   dateoforder:{
       type:Date, 
       default:Date.now
@@ -19,6 +20,7 @@ function validateOrder(data) {
       buyername: Joi.string().min(3).regex(/^[A-Za-z\w\s]+$/).required(),
       address: Joi.string().min(6).required(),
       adid: Joi.string().min(6).required(),
+      photo: Joi.string().min(6).required(),
       adpostedby: Joi.string().min(3).required(),
       phone: Joi.string().min(11).max(11).required(),
       totalamount:Joi.number().min(1).required(),
