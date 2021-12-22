@@ -25,7 +25,7 @@ router.get("/",async (req, res) => {
     }
   });
   //update a record
-  router.put("/:id", validateCustomer,async (req, res) => {
+  router.put("/:id",async (req, res) => {
     let customer = await Customer.findById(req.params.id);
     let user = await User.findOne({userid:req.params.id});
     customer.name = req.body.name;

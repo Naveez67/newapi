@@ -33,7 +33,7 @@ router.get("/",async (req, res) => {
     farmer.address = req.body.address;
     farmer.phone = req.body.phone;
     user.username=req.body.username;
-    console.log(req.body)
+    // console.log(req.body)
     await farmer.save(); 
 
     await user.save();
