@@ -12,7 +12,7 @@ router.get("/",async(req,res)=>{
      
     return res.send(order);
 })
-router.get("/myorders/",auth,async(req,res)=>{
+router.put("/myorders/",auth,async(req,res)=>{
     let page = Number(req.query.page ? req.query.page : 1);
     let perPage = Number(req.query.perPage ? req.query.perPage : 10);
     let skipRecords = perPage * (page - 1);
