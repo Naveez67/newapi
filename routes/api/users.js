@@ -25,7 +25,7 @@ router.get("/",auth,async (req, res) => {
   });
   router.get("/usernames",async (req, res) => {
     let users = await User.find();
-      return res.send(users);
+      return res.send(users);    
     });
 router.get("/farmers",auth,async (req, res) => {
     let page = Number(req.query.page ? req.query.page : 1);
@@ -77,6 +77,27 @@ router.get("/customer",auth,async (req, res) => {
       return res.status(400).send("Invalid ID"); // format of id is not correct
     }
   });
+  router.get("/userphone/:username", async (req, res) => {
+    try {
+     let user = await User.findOne({username:req.params.username});
+     if(!user) return res.status(400).send("no user exist");
+     if (user.role==="farmer"){
+        let famer=await Farmer.findById(user.userid)
+        return res.send(famer.phone); 
+      }
+      else if (user.role==="supplier"){
+        let sup=await Supplier.findById(user.userid)
+        return res.send(sup.phone); 
+      }
+      else if (user.role==="customer"){
+        let cus=await Customer.findById(user.userid)
+        return res.send(cus.phone); 
+      }
+        
+    } catch (err) {
+      return res.status(400).send("Invalid ID"); // format of id is not correct
+    }
+  });
   
   //update a record
   router.get("/userprofile", async (req, res) => {
@@ -99,6 +120,21 @@ router.get("/customer",auth,async (req, res) => {
     await user.save();
     return res.send(user);
   });
+  router.put("/updatepassword/:username", async (req, res) => {
+    let user = await User.findOne({username:req.params.username})
+    user.password = req.body.password;
+    await user.generateHashedPassword();
+    await user.save();
+    // let token = jwt.sign(
+    //   { _id: user._id, username: user.username, role: user.role },
+    //   config.get("jwtprivatekey")
+    // );
+    // let datatoReturn = {
+    //   username: user.username,
+    //   token: user.token,
+    // };
+    return res.send("updated");
+  });
   //update a record
   router.delete("/:id",auth, async (req, res) => {
     let user = await User.findById(req.params.id);
@@ -110,7 +146,7 @@ router.get("/customer",auth,async (req, res) => {
     return res.send(user1);
   });
 
-  //Insert a record
+  //Insert a record  
   router.post("/", validateUser, async (req, res) => {
       let user=await User.findOne({username:req.body.username});
       if(user) return res.status(400).send("username is already taken");
