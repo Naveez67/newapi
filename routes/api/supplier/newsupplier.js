@@ -34,7 +34,7 @@ router.get("/profile/:id",async (req, res) => {
     supplier.address = req.body.address;
     supplier.phone = req.body.phone;
     supplier.regno = req.body.regno;
-    user.username=req.body.username;
+    // user.username=req.body.username;
     await supplier.save();
 
     await user.save();
@@ -49,7 +49,12 @@ router.get("/profile/:id",async (req, res) => {
   //Insert a record
   router.post("/",validateSupplier,async (req, res) => {
       let user=await User.findOne({username:req.body.username});
+      let sup=await Supplier.findOne({phone:req.body.phone});
+      let supreg=await Supplier.findOne({regno:req.body.regno});
       if(user) return res.status(400).send("username is already taken");
+      if(sup) return res.status(400).send("phone number alreay taken");
+      if(supreg) return res.status(400).send("this company already exist")
+
      user = new User();
      let supplier=new Supplier();
      supplier.name = req.body.name;

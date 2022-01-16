@@ -32,7 +32,7 @@ router.get("/",async (req, res) => {
     farmer.photo = req.body.photo;
     farmer.address = req.body.address;
     farmer.phone = req.body.phone;
-    user.username=req.body.username;
+    // user.username=req.body.username;
     // console.log(req.body)
     await farmer.save(); 
 
@@ -47,7 +47,9 @@ router.get("/",async (req, res) => {
   //Insert a record
   router.post("/",validateFarmer,async (req, res) => {
       let user=await User.findOne({username:req.body.username});
+      let fm=await Farmer.findOne({phone:req.body.phone})
       if(user) return res.status(400).send("username is already taken");
+      if(fm) return res.status(400).send("phone number already taken")
      user = new User();
      let newFarmer=new Farmer();
      newFarmer.name = req.body.name;

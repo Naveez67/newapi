@@ -46,7 +46,9 @@ router.get("/",async (req, res) => {
   //Insert a record
   router.post("/",validateCustomer,async (req, res) => {
       let user=await User.findOne({username:req.body.username});
+      let cum=await Customer.findOne({phone:req.body.phone})
       if(user) return res.status(400).send("username is already taken");
+      if(cum) return res.status(400).send("phone number already taken")
      user = new User();
      let newCustomer=new Customer();
      newCustomer.name = req.body.name;
